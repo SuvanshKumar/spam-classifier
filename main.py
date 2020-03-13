@@ -19,19 +19,25 @@ def remove_punctuations(text: str) -> str:
     return text
 
 '''
-runs os.walk and returns the relative paths of all the files of training data, as a tuple of 2 elements
+runs os.walk and returns the relative paths of all the files of training data, as a tuple of 4 elements
 each element of the tuple is a list (the first list for spams and second one for hams)
-both of these contain strings which are relative paths of file names from the root of the project
-e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt'], ['data/train/ham/file1.txt'])
+all four of these contain strings which are relative paths of file names from the root of the project
+e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt'], ['data/train/ham/file1.txt'], [], [])
 '''
 def get_file_paths():
     spam_train_dir = 'data/train/spam/'
     ham_train_dir = 'data/train/ham/'
+    spam_test_dir = 'data/test/spam/'
+    ham_test_dir = 'data/test/ham/'
     for file_paths in os.walk(spam_train_dir):
-        spam_file_paths = [spam_train_dir + spam_file_name for spam_file_name in file_paths[2]]
+        spam_train_file_paths = [spam_train_dir + spam_file_name for spam_file_name in file_paths[2]]
     for file_paths in os.walk(ham_train_dir):
-        ham_file_paths = [ham_train_dir + ham_file_name for ham_file_name in file_paths[2]]
-    return (spam_file_paths, ham_file_paths)
+        ham_train_file_paths = [ham_train_dir + ham_file_name for ham_file_name in file_paths[2]]
+    for file_paths in os.walk(spam_test_dir):
+        spam_test_file_paths = [spam_test_dir + spam_file_name for spam_file_name in file_paths[2]]
+    for file_paths in os.walk(ham_test_dir):
+        ham_test_file_paths = [ham_test_dir + ham_file_name for ham_file_name in file_paths[2]]
+    return (spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths)
 
 '''
 Input: the list of file paths (relative path from root of project should work), and the list of stop words
@@ -51,9 +57,9 @@ def get_words_list(file_paths, stop_words):
 
 def main():
     stop_words = read_stop_words()
-    spam_file_paths, ham_file_paths = get_file_paths()
-    spam_words_list = get_words_list(spam_file_paths, stop_words)
-    ham_words_list = get_words_list(ham_file_paths, stop_words)
+    spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths = get_file_paths()
+    spam_words_list = get_words_list(spam_train_file_paths, stop_words)
+    ham_words_list = get_words_list(ham_train_file_paths, stop_words)
 
 if __name__ == '__main__':
     main()
