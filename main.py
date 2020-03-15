@@ -57,7 +57,7 @@ def get_words_list(file_paths, stop_words):
         tokens.extend(tokens_this_file)
     return tokens
 
-def naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, ham_test_file_paths, stop_words, spam_file_count, ham_file_count):
+def naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, ham_test_file_paths, spam_file_count, ham_file_count, stop_words):
     bayes_classifier = NaiveBayes(spam_words_list, ham_words_list, spam_file_count, ham_file_count)
     ham_f_paths = ham_test_file_paths
     spam_f_paths = spam_test_file_paths
@@ -76,17 +76,27 @@ def naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, 
             correct_classifications += 1
         else:
             wrong_classifications += 1
-    print(correct_classifications, wrong_classifications)
-    print('Accuracy = ', correct_classifications/(correct_classifications+wrong_classifications))
+    return (correct_classifications, wrong_classifications)
 
 def main():
     stop_words = read_stop_words()
-    # stop_words = []
     spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths = get_file_paths()
     spam_file_count, ham_file_count = (len(spam_train_file_paths), len(ham_train_file_paths))
     spam_words_list = get_words_list(spam_train_file_paths, stop_words)
     ham_words_list = get_words_list(ham_train_file_paths, stop_words)
-    naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, ham_test_file_paths, stop_words, spam_file_count, ham_file_count)
 
+    #Using the Naive Baye's classifier
+    print('Naive Baye\'s classifier:')
+    
+    # Without stop words
+    correct_classifications1, wrong_classifications1 = naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, ham_test_file_paths, spam_file_count, ham_file_count, stop_words=[])
+    print(correct_classifications1, wrong_classifications1)
+    print('Including stop words, the accuracy is:', (correct_classifications1)/(correct_classifications1+wrong_classifications1) )
+    
+    # With stop words
+    correct_classifications2, wrong_classifications2 = naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, ham_test_file_paths, spam_file_count, ham_file_count, stop_words)
+    print(correct_classifications2, wrong_classifications2)
+    print('After removing stop words, the accuracy is:', (correct_classifications2)/(correct_classifications2+wrong_classifications2) )
+    
 if __name__ == '__main__':
     main()
