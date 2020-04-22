@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 from naive_bayes_classifier import NaiveBayes
 
@@ -25,21 +26,20 @@ runs os.walk and returns the relative paths of all the files of training data, a
 each element of the tuple is a list (the first list for spams and second one for hams)
 all four of these contain strings which are relative paths of file names from the root of the project
 e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt'], ['data/train/ham/file1.txt'], [], [])
-'''
+'''#     return (sorted(spam_train_file_paths), sorted(ham_train_file_paths), sorted(spam_test_file_paths), sorted(ham_test_file_paths))
+
 def get_file_paths():
     spam_train_dir = 'data/train/spam/'
     ham_train_dir = 'data/train/ham/'
     spam_test_dir = 'data/test/spam/'
     ham_test_dir = 'data/test/ham/'
-    for file_paths in os.walk(spam_train_dir):
-        spam_train_file_paths = [spam_train_dir + spam_file_name for spam_file_name in file_paths[2]]
-    for file_paths in os.walk(ham_train_dir):
-        ham_train_file_paths = [ham_train_dir + ham_file_name for ham_file_name in file_paths[2]]
-    for file_paths in os.walk(spam_test_dir):
-        spam_test_file_paths = [spam_test_dir + spam_file_name for spam_file_name in file_paths[2]]
-    for file_paths in os.walk(ham_test_dir):
-        ham_test_file_paths = [ham_test_dir + ham_file_name for ham_file_name in file_paths[2]]
+
+    spam_train_file_paths = [os.path.join(spam_train_dir, spam_file_name) for spam_file_name in sorted(os.listdir(spam_train_dir))]
+    ham_train_file_paths = [os.path.join(ham_train_dir, ham_file_name) for ham_file_name in sorted(os.listdir(ham_train_dir))]
+    spam_test_file_paths = [os.path.join(spam_test_dir, spam_file_name) for spam_file_name in sorted(os.listdir(spam_test_dir))]
+    ham_test_file_paths = [os.path.join(ham_test_dir, ham_file_name) for ham_file_name in sorted(os.listdir(ham_test_dir))]
     return (spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths)
+
 
 '''
 Input: the list of file paths (relative path from root of project should work), and the list of stop words
