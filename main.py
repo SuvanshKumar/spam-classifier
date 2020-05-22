@@ -29,15 +29,19 @@ e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt'], ['data/train/h
 '''#     return (sorted(spam_train_file_paths), sorted(ham_train_file_paths), sorted(spam_test_file_paths), sorted(ham_test_file_paths))
 
 def get_file_paths():
-    spam_train_dir = 'data/train/spam/'
-    ham_train_dir = 'data/train/ham/'
-    spam_test_dir = 'data/test/spam/'
-    ham_test_dir = 'data/test/ham/'
+    with open('paths_config.json', 'r') as file:
+        dir_paths = json.load(file)
+
+    spam_train_dir = dir_paths['paths']['spam_train_dir']
+    ham_train_dir = dir_paths['paths']['ham_train_dir']
+    spam_test_dir = dir_paths['paths']['spam_test_dir']
+    ham_test_dir = dir_paths['paths']['ham_test_dir']
 
     spam_train_file_paths = [os.path.join(spam_train_dir, spam_file_name) for spam_file_name in sorted(os.listdir(spam_train_dir))]
     ham_train_file_paths = [os.path.join(ham_train_dir, ham_file_name) for ham_file_name in sorted(os.listdir(ham_train_dir))]
     spam_test_file_paths = [os.path.join(spam_test_dir, spam_file_name) for spam_file_name in sorted(os.listdir(spam_test_dir))]
     ham_test_file_paths = [os.path.join(ham_test_dir, ham_file_name) for ham_file_name in sorted(os.listdir(ham_test_dir))]
+
     return (spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths)
 
 
