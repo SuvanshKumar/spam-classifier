@@ -2,8 +2,8 @@
 	"paths": 
 	{
 		"spam_train_dir": "data/train/spam/",
-    "ham_train_dir": "data/train/ham/",
-    "spam_test_dir": "data/test/spam/",
-    "ham_test_dir": "data/test/ham/"
+		"ham_train_dir": "data/train/ham/",
+		"spam_test_dir": "data/test/spam/",
+		"ham_test_dir": "data/test/ham/"
 	}
 }
