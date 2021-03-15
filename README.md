@@ -54,7 +54,7 @@ Including stop words, the accuracy is: 0.9665271966527197
 After removing stop words, the accuracy is: 0.9686192468619247
 ```
 
-There it is. You have successfully run a classifier that gives 98%+ accuracy on classifying an email as spam.
+There it is. You have successfully run a classifier that gives 96%+ accuracy on classifying an email as spam.
 
 ## (Optional) Adding your own data for testing/training
 
