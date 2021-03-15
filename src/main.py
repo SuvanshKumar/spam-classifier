@@ -6,9 +6,13 @@ from naive_bayes_classifier import NaiveBayes
 
 '''
 This function reads the stop-words from a text file, and returns them as a list of strings
+
+Note: if we try file_path = '/data/stopwords.txt', 
+    then os.path.join(path_to_root, file_path) will return '/data/stopwords.txt' instead of '../data/stopwords.txt'.
+    This is because it then considers file_path to be the absolute path (because of starting slash, which is the root directory in linux filesystem)
 '''
-def read_stop_words(file_path = 'data/stopwords.txt'):
-    with open(file_path) as f:
+def read_stop_words(path_to_root, file_path = 'data/stopwords.txt'):
+    with open(os.path.join(path_to_root, file_path)) as f:
         stop_words = [word[:-1] for word in f]
     return stop_words
 
@@ -22,20 +26,24 @@ def remove_punctuations(text: str) -> str:
     return text
 
 '''
-runs os.walk and returns the relative paths of all the files of training data, as a tuple of 4 elements
+uses os.listdir and returns the relative paths of all the files of training data, as a tuple of 4 elements
 each element of the tuple is a list (the first list for spams and second one for hams)
 all four of these contain strings which are relative paths of file names from the root of the project
-e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt'], ['data/train/ham/file1.txt'], [], [])
+e.g. (['data/train/spam/file1.txt', 'data/train/spam/file2.txt', ...], ['data/train/ham/file1.txt', ...], [...], [...])
+
+Note: Similar to the read_stop_words() function, if we try paths_config_filename = '/config/paths_config.json', 
+    then os.path.join(path_to_root, paths_config_filename) will return '/config/paths_config.json' instead of '../config/paths_config.json'.
+    This is because it then considers paths_config_filename to be the absolute path (because of starting slash, which is the root directory in linux filesystem)
 '''#     return (sorted(spam_train_file_paths), sorted(ham_train_file_paths), sorted(spam_test_file_paths), sorted(ham_test_file_paths))
 
-def get_file_paths():
-    with open('paths_config.json', 'r') as file:
+def get_file_paths(path_to_root, paths_config_filename='config/paths_config.json'):
+    with open(os.path.join(path_to_root, paths_config_filename), 'r') as file:
         dir_paths = json.load(file)
 
-    spam_train_dir = dir_paths['paths']['spam_train_dir']
-    ham_train_dir = dir_paths['paths']['ham_train_dir']
-    spam_test_dir = dir_paths['paths']['spam_test_dir']
-    ham_test_dir = dir_paths['paths']['ham_test_dir']
+    spam_train_dir = os.path.join(path_to_root, dir_paths['paths']['spam_train_dir'])
+    ham_train_dir = os.path.join(path_to_root, dir_paths['paths']['ham_train_dir'])
+    spam_test_dir = os.path.join(path_to_root, dir_paths['paths']['spam_test_dir'])
+    ham_test_dir = os.path.join(path_to_root, dir_paths['paths']['ham_test_dir'])
 
     spam_train_file_paths = [os.path.join(spam_train_dir, spam_file_name) for spam_file_name in sorted(os.listdir(spam_train_dir))]
     ham_train_file_paths = [os.path.join(ham_train_dir, ham_file_name) for ham_file_name in sorted(os.listdir(ham_train_dir))]
@@ -83,8 +91,9 @@ def naive_bayes_classify(spam_words_list, ham_words_list, spam_test_file_paths, 
     return (correct_classifications, wrong_classifications)
 
 def main():
-    stop_words = read_stop_words()
-    spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths = get_file_paths()
+    path_to_root = '../'
+    stop_words = read_stop_words(path_to_root)
+    spam_train_file_paths, ham_train_file_paths, spam_test_file_paths, ham_test_file_paths = get_file_paths(path_to_root)
     spam_file_count, ham_file_count = (len(spam_train_file_paths), len(ham_train_file_paths))
     spam_words_list = get_words_list(spam_train_file_paths, stop_words)
     ham_words_list = get_words_list(ham_train_file_paths, stop_words)
