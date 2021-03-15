@@ -10,9 +10,9 @@ Here, I implemented the multinomial Naive Bayes algorithm for text classificatio
 
 An accuracy of 96.65% is achieved on the test dataset. 
 
-In an attempt to improve the results further, the commonly occurring words (called _stopwords_, like 'the', 'do', 'each', 'for', etc.) are removed. This is because they don't add much context to the emails (both spams and hams contain a lot of them, so they don't provide much useful information). Some good common stopwords can be found [here](https://www.ranks.nl/stopwords, "Stopwords"), and have been included in [stopwords.txt](data/stopwords.txt).
+In an attempt to improve the results further, the commonly occurring words (called _stopwords_, like 'the', 'do', 'each', 'for', etc.) are removed. This is because they don't add much context to the emails (both spams and hams contain a lot of them, so they don't provide much useful information). Some good common stopwords can be found [here](https://www.ranks.nl/stopwords "Stopwords"), and have been included in [stopwords.txt](data/stopwords.txt).
 
-> Stopwords for other languages can also be found on [that link](https://www.ranks.nl/stopwords, "Stopwords").
+> Stopwords for other languages can also be found on [that link](https://www.ranks.nl/stopwords "Stopwords").
 
 The removal of stopwords lead to a slightly increased accuracy of 96.86%.
 
@@ -22,19 +22,27 @@ To train your Naive Bayes Classifier:
 
 - Clone this repository
 
-`$ git clone https://github.com/SuvanshKumar/spam-classifier.git`
+```bash
+$ git clone https://github.com/SuvanshKumar/spam-classifier.git
+```
 
 or
 
-`$ git clone git@github.com:SuvanshKumar/spam-classifier.git`
+```bash
+$ git clone git@github.com:SuvanshKumar/spam-classifier.git
+```
 
 - Change to inside the cloned directory
 
-`$ cd spam-classifier`
+```bash
+$ cd spam-classifier
+```
 
 - Go to the src folder
 
-`$ cd src`
+```bash
+$ cd src
+```
 
 - Run [main.py](src/main.py) file.
 
